@@ -42,7 +42,7 @@ jobs:
       - name: Scanner avec ZAP Action Full Scan
         uses: zaproxy/action-full-scan@v0.13.0
         with:
-          target: http://127.0.0.1:8000/
+          target: http://127.0.0.1:8000/search?q=%3Cscript%3Ealert%281%29%3C%2Fscript%3E
           rules_file_name: zap.conf
           cmd_options: -i -I -m 3
           fail_action: true
