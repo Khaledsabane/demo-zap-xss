@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CyberShop | Démo DevSecOps</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <a class="brand" href="index.html">CyberShop</a>
+    <nav>
+      <a href="index.html">Accueil</a>
+      <a href="about.html">Le projet</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <span class="pill">Démonstration DevSecOps</span>
+      <h1>Un push, un scan, une publication contrôlée.</h1>
+      <p>
+        Cette petite application permet de montrer comment ZAP détecte une
+        faille XSS avant la publication sur GitHub Pages.
+      </p>
+
+      <form class="search-box" action="search" method="get">
+        <label for="q">Rechercher dans CyberShop</label>
+        <div class="search-row">
+          <input id="q" name="q" type="text" placeholder="Écrivez un mot">
+          <button class="button" type="submit">Rechercher</button>
+        </div>
+      </form>
+
+      <a class="button secondary" href="search?q=bonjour">Ouvrir un exemple</a>
+    </section>
+
+    <section class="cards">
+      <article><b>01</b><h2>Développer</h2><p>Une fonctionnalité de recherche est ajoutée.</p></article>
+      <article><b>02</b><h2>Scanner</h2><p>ZAP teste le paramètre envoyé à la recherche.</p></article>
+      <article><b>03</b><h2>Publier</h2><p>GitHub Pages ne reçoit que la version validée.</p></article>
+    </section>
+  </main>
+
+  <footer>CyberShop | Démonstration de classe</footer>
+</body>
+</html>

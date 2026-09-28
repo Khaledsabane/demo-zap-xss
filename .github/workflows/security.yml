@@ -1,0 +1,83 @@
+name: Securite ZAP puis publication Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  zap-security-check:
+    name: zap-security-check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Recuperer le projet
+        uses: actions/checkout@v4
+
+      - name: Tester l'application
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Demarrer la copie de test sur le runner
+        run: |
+          python3 app.py > "$RUNNER_TEMP/site.log" 2>&1 &
+          for i in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:8000/ > /dev/null; then
+              echo "Site de test disponible"
+              exit 0
+            fi
+            sleep 1
+          done
+          cat "$RUNNER_TEMP/site.log"
+          exit 1
+
+      - name: Scanner avec ZAP Action Full Scan
+        uses: zaproxy/action-full-scan@v0.13.0
+        with:
+          target: http://127.0.0.1:8000/
+          rules_file_name: zap.conf
+          cmd_options: -i -I -m 3
+          fail_action: true
+          allow_issue_writing: false
+          artifact_name: rapport-zap
+
+  prepare-pages:
+    name: prepare-pages
+    needs: zap-security-check
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+    steps:
+      - name: Recuperer le projet
+        uses: actions/checkout@v4
+      - name: Configurer GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Preparer l'artefact Pages
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+  deploy:
+    name: deploy
+    needs: prepare-pages
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publier la nouvelle version
+        id: deployment
+        uses: actions/deploy-pages@v4
