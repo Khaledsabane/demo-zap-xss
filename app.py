@@ -24,7 +24,7 @@ class DemoHandler(SimpleHTTPRequestHandler):
         # VERSION SAINE : la saisie utilisateur est échappée avant son
         # insertion dans le HTML. Pour créer le commit vulnérable de la
         # démonstration, remplacer cette ligne par : displayed_query = query
-        displayed_query = escape(query)
+        displayed_query = query
 
         return f"""<!doctype html>
 <html lang="fr">
