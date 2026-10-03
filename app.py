@@ -22,7 +22,7 @@ class DemoHandler(SimpleHTTPRequestHandler):
 
     def _search_page(self, query):
         #heeeey
-        displayed_query = query
+        displayed_query = escape(query)
 
         return f"""<!doctype html>
 <html lang="fr">
