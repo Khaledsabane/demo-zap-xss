@@ -21,9 +21,7 @@ class DemoHandler(SimpleHTTPRequestHandler):
         self.wfile.write(encoded)
 
     def _search_page(self, query):
-        # VERSION SAINE : la saisie utilisateur est échappée avant son
-        # insertion dans le HTML. Pour créer le commit vulnérable de la
-        # démonstration, remplacer cette ligne par : displayed_query = query
+        #heeeey
         displayed_query = query
 
         return f"""<!doctype html>
