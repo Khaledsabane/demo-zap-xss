@@ -21,8 +21,8 @@ class DemoHandler(SimpleHTTPRequestHandler):
         self.wfile.write(encoded)
 
     def _search_page(self, query):
-        #heeeey
-        displayed_query = escape(query)
+        
+        displayed_query = query
 
         return f"""<!doctype html>
 <html lang="fr">
